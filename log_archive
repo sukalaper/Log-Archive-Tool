@@ -1,0 +1,22 @@
+#!/bin/bash
+
+if [ -z "$1" ]; then
+  echo "Penggunaan: $0 <direktori_log>"
+  exit 1
+fi
+
+LOG_DIR="$1"
+
+if [ ! -d "$LOG_DIR" ]; then
+  echo "Direktori tidak ditemukan: $LOG_DIR"
+  exit 1
+fi
+
+TIMESTAMP=$(date +'%Y%m%d_%H%M%S')
+ARCHIVE_NAME="logs_archive_$TIMESTAMP.tar.gz"
+
+tar -czf "$LOG_DIR/$ARCHIVE_NAME" -C "$LOG_DIR" *.log
+
+echo "$(date): $ARCHIVE_NAME" >> "$LOG_DIR/archive_log.txt"
+
+echo "Arsip selesai dibuat: $LOG_DIR/$ARCHIVE_NAME"
